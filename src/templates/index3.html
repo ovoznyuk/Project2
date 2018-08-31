@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
+    <script src="../static/js/utils.js"></script>
+    <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 1500px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height: auto;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-3 sidenav">
+            <h4>John's Blog</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="#section1">Home</a></li>
+                <li><a href="#section2">Friends</a></li>
+                <li><a href="#section3">Family</a></li>
+                <li><a href="#section3">Photos</a></li>
+            </ul><br>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search Blog..">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+            <button id="btnRefresh" type="button" class="btn btn-primary">Refresh</button>
+            <button id="btnScrape" type="button" class="btn btn-primary">Scrape</button>
+        </div>
+
+        <div class="col-sm-9">
+            <h2>Dynamic Pills</h2>
+            <p>To make the tabs toggleable, add the data-toggle="pill" attribute to each link. Then add a .tab-pane class with a unique ID for every tab and wrap them inside a div element with class .tab-content.</p>
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="pill" href="#home">Apple</a></li>
+                <li><a data-toggle="pill" href="#menu1">Menu 1</a></li>
+                <li><a data-toggle="pill" href="#menu2">City</a></li>
+                <li><a data-toggle="pill" href="#menu3">Menu 3</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <h3>Apple</h3>
+                    <p>Apple stock price.</p>
+                    <div class="col-sm-9">
+                        <div class="col-md-10">
+                            <div id="apple-area" class="">
+                                <table id="aapl-stock-table" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-head-Date">Date</th>
+                                        <th class="table-head">Open</th>
+                                        <th class="table-head">High</th>
+                                        <th class="table-head">Low</th>
+                                        <th class="table-head">Close</th>
+                                        <th class="table-head">Adj Close</th>
+                                        <th class="table-head">Volume</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="aapl-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <h3>Menu 1</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                    <h3>City</h3>
+                    <p>Just city from database.</p>
+                    <div class="col-sm-9">
+                        <div class="col-md-10">
+                            <div id="table-area" class="">
+                                <table id="stock-table" class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th class="table-head-Date">ID</th>
+                                        <th class="table-head">Name</th>
+                                        <th class="table-head">CountryCode</th>
+                                        <th class="table-head">District</th>
+                                        <th class="table-head">Population</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="stock-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="menu3" class="tab-pane fade">
+                    <h3>Menu 3</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<footer class="container-fluid">
+    <p>Footer Text</p>
+</footer>
+
+</body>
+</html>
