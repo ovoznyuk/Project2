@@ -24,7 +24,12 @@ $(function(){
     			success: function(response){
     			    var json = $.parseJSON(response);
     				console.log(response);
-    				aaplData(response)
+    				if (IsJsonString) {
+    				    aaplData(response);
+    				} else{
+    				    alert("Something Wrong Happened!!!");
+    				}
+
     			},
     			error: function(error){
     				console.log(error);
@@ -33,29 +38,42 @@ $(function(){
     	});
 });
 
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 function aaplData(tableData) {
-	var tbody = d3.select("#aapl-table-body");
- // Use d3 to update each cell's text with
- // a data from tableDate
-   obj = JSON.parse(tableData)
-   Object.entries(obj).forEach(function([key, value]) {
-        row = tbody.append("tr");
-        cell = row.append("td");
-        cell.text(key);
-        cell = row.append("td");
-        cell.text(value.Open);
-        cell = row.append("td");
-        cell.text(value.High);
-        cell = row.append("td");
-        cell.text(value.Low);
-        cell = row.append("td");
-        cell.text(value.Close);
-        cell = row.append("td");
-        cell.text(value["Adj Close"]);
-        cell = row.append("td");
-        cell.text(value.Volume);
-        console.log(key+" :   "+value["Adj Close"]);
-    });
+    if (tableData != "Error") {
+        var tbody = d3.select("#aapl-table-body");
+     // Use d3 to update each cell's text with
+     // a data from tableDate
+       obj = JSON.parse(tableData)
+       Object.entries(obj).forEach(function([key, value]) {
+            row = tbody.append("tr");
+            cell = row.append("td");
+            cell.text(key);
+            cell = row.append("td");
+            cell.text(value.Open);
+            cell = row.append("td");
+            cell.text(value.High);
+            cell = row.append("td");
+            cell.text(value.Low);
+            cell = row.append("td");
+            cell.text(value.Close);
+            cell = row.append("td");
+            cell.text(value["Adj Close"]);
+            cell = row.append("td");
+            cell.text(value.Volume);
+            console.log(key+" :   "+value["Adj Close"]);
+        });
+    } else {
+        alert("Error Happened!!");
+    }
 }
 
 function putData(tableData) {
