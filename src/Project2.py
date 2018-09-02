@@ -70,12 +70,12 @@ def scrape():
         end = datetime.datetime(2018,8,28)   #datetime.date.today()
 
         apple = getDadaYahoo("AAPL", start, end)
-        # if is_json(apple):
-        putInTableAAPL(apple)
-            # if status != "OK":
-            #     apple = status
-        # else:
-        #     apple = "Error, no JSON in answer!!!"
+        if is_json(apple):
+            status = putInTableAAPL(apple)
+            if status != "OK":
+                apple = status
+        else:
+            apple = "Error, no JSON in answer!!!"
 
     except Exception as e:
         apple = json.dumps({'error':str(e)})
