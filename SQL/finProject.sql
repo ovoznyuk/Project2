@@ -9,6 +9,10 @@ CREATE TABLE `finproject`.`stock_aapl` (
   `adj_close` DECIMAL NULL,
   `volume` INT NULL);
 
+CREATE TABLE `finproject`.`stock_x` (
+  `date` DATETIME NULL,
+  `open` DECIMAL NULL,
+  `close` DECIMAL NULL);
 
 */
 

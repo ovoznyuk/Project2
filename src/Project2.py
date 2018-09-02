@@ -97,11 +97,8 @@ def putInTableAAPL(jsonData_apple):
         apple_cursor =conn.cursor()
         apple_cursor.execute("DELETE FROM stock_aapl")
         for key, value in json.loads(jsonData_apple).items():
-            # print(datetime.datetime.fromtimestamp(int(key)/1e3).isoformat(), value['Open'], value['High'], value['Low'], value['Close'], value['Adj Close'], value['Volume'])
-            date_stuck = datetime.datetime.fromtimestamp(int(key)/1e3).isoformat()
-            # open_stuck = value['Open']
+            date_stuck = datetime.datetime.utcfromtimestamp(int(key)/1e3)
             sql = "INSERT INTO stock_aapl (date, open, high, low, close, adj_close, volume) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-            # ", open, high, low, close, adj_close, volume) VALUES (%s)"
             val = (date_stuck, value['Open'], value['High'], value['Low'], value['Close'], value['Adj Close'], value['Volume'])
             apple_cursor.execute(sql, val)
         conn.commit()

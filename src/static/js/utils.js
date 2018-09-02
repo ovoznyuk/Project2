@@ -56,7 +56,8 @@ function aaplData(tableData) {
        Object.entries(obj).forEach(function([key, value]) {
             row = tbody.append("tr");
             cell = row.append("td");
-            cell.text(key);
+            date = new Date(key/1).toISOString().substring(0, 10);
+            cell.text(date);
             cell = row.append("td");
             cell.text(value.Open);
             cell = row.append("td");
