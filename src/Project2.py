@@ -64,17 +64,18 @@ def scrape():
     #    startDate =  request.form['startDate'];
     #    endDate = request.form['endDate'];
     try:
+        print("Start!")
         # We will look at stock prices for 7 business days, starting from Aug 20
         start = datetime.datetime(2018,8,20)
         end = datetime.datetime(2018,8,28)   #datetime.date.today()
 
         apple = getDadaYahoo("AAPL", start, end)
-        if is_json(apple):
-            status = putInTableAAPL(apple)
-            if status != "OK":
-                apple = status
-        else:
-            apple = "Error, no JSON in answer!!!"
+        # if is_json(apple):
+        putInTableAAPL(apple)
+            # if status != "OK":
+            #     apple = status
+        # else:
+        #     apple = "Error, no JSON in answer!!!"
 
     except Exception as e:
         apple = json.dumps({'error':str(e)})
