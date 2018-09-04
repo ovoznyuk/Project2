@@ -6,9 +6,11 @@ $(function(){
 //			data: $('form').serialize(),
 			type: 'POST',
 			success: function(response){
-			    var json = $.parseJSON(response);
-				console.log(response);
-				putData(json);
+			    if (response =="OK") {
+			        csv_to_table('../static/aapl_Year.csv');
+                    draw_chart('../static/aapl_Year.csv');
+                    draw_chart_macd('../static/aapl_Year.csv');
+			    }
 			},
 			error: function(error){
 				console.log(error);
@@ -26,16 +28,30 @@ $(function(){
     				console.log(response);
     				if (IsJsonString) {
     				    aaplData(response);
+                        draw_chart('../static/data/aapl.csv');
+                        draw_chart_macd('../static/data/aapl.csv');
     				} else{
     				    alert("Something Wrong Happened!!!");
     				}
-
     			},
     			error: function(error){
     				console.log(error);
     			}
     		});
     	});
+    $('#btnLoadAAPL').click(function(){
+                $.ajax({
+                    url: '/load',
+        //			data: $('form').serialize(),
+                    type: 'POST',
+                    success: function(response){
+                        alert("Data Loaded");
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            });
 });
 
 function IsJsonString(str) {
@@ -45,6 +61,35 @@ function IsJsonString(str) {
         return false;
     }
     return true;
+}
+
+function csv_to_table(file_name){
+    d3.csv(file_name, function(data) {
+      console.log(data.Open);
+      tabulate(data);
+    });
+}
+var tabulate = function (value) {
+    var tbody = d3.select("#aapl-table-body");
+    // Use d3 to update each cell's text with
+    // a data from row
+    row = tbody.append("tr");
+    cell = row.append("td");
+//    date = new Date(value.Date).toISOString().substring(0, 10);
+    date = value.Date;
+    cell.text(date);
+    cell = row.append("td");
+    cell.text(value.Open);
+    cell = row.append("td");
+    cell.text(value.High);
+    cell = row.append("td");
+    cell.text(value.Low);
+    cell = row.append("td");
+    cell.text(value.Close);
+    cell = row.append("td");
+    cell.text(value["Adj. Close"]);
+    cell = row.append("td");
+    cell.text(value.Volume);
 }
 
 function aaplData(tableData) {

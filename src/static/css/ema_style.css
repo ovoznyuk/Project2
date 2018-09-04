@@ -1,3 +1,21 @@
+/* **** D3 SVG section ******* */
+body {
+  margin: 0;
+}
+
+svg {
+  display: block;
+}
+
+path.ema20 {
+  stroke: red;
+}
+
+path.ema40 {
+  stroke: green;
+}
+
+/* **** D3 SVG section end ****** */
 * {
   box-sizing: border-box;
   font-family: Ubuntu, sans-serif;
@@ -224,4 +242,34 @@ select {
   to {
     opacity: 1;
   }
+}
+
+thead, tbody, tr, td, th { display: block; }
+
+tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+thead th {
+    height: 30px;
+
+    /*text-align: left;*/
+}
+
+tbody {
+    height: 220px;
+    overflow-y: auto;
+}
+
+thead {
+    /* fallback */
+}
+
+
+tbody td, thead th {
+    width: 14%;
+    float: left;
 }
