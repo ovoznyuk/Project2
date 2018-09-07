@@ -24,14 +24,13 @@ $(function(){
     //			data: $('form').serialize(),
     			type: 'POST',
     			success: function(response){
-    			    var json = $.parseJSON(response);
     				console.log(response);
     				if (IsJsonString) {
     				    aaplData(response);
                         draw_chart('../static/data/aapl.csv');
                         draw_chart_macd('../static/data/aapl.csv');
     				} else{
-    				    alert("Something Wrong Happened!!!");
+    				    alert("Something Wrong Happened!!!/n"+response);
     				}
     			},
     			error: function(error){
@@ -57,13 +56,16 @@ $(function(){
 function IsJsonString(str) {
     try {
         JSON.parse(str);
-    } catch (e) {
+    }
+    catch (e) {
         return false;
     }
     return true;
 }
 
 function csv_to_table(file_name){
+    var tbody = d3.select("#aapl-table-body");
+    tbody.selectAll("tr").remove();
     d3.csv(file_name, function(data) {
       console.log(data.Open);
       tabulate(data);
