@@ -65,7 +65,7 @@ function draw_chart_macd(file_name){
         })).then(data => {
 
         // the CSV data is in reverse date order
-        data = data.reverse();
+//        data = data.reverse();
 
         // compute the MACD
         const macdData = macdAlgorithm(data);

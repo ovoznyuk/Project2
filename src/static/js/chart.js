@@ -84,7 +84,7 @@ function draw_chart(file_name) {
         date: parseDate(row.Date)
         })).then(data => {
 
-        data = data.reverse();
+//        data = data.reverse();
 
         // compute the moving average data
         const maData = ma(data);

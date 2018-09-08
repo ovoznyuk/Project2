@@ -34,6 +34,9 @@ def refresh():
 
     ticker_file ='aapl'+ '.csv'
     try:
+        print("Check Date bounds ...")
+        startDate = request.form['analysisStart']
+        endDate   = request.form['analysisEnd']
         # MySQL configurations
         app.config['MYSQL_DATABASE_USER'] = 'root'
         app.config['MYSQL_DATABASE_PASSWORD'] = 'VOVoli123'
@@ -43,7 +46,16 @@ def refresh():
         mysql.init_app(app)
         conn = mysql.connect()
         cursor =conn.cursor()
-        cursor.execute("SELECT * FROM stock_aapl ORDER BY date DESC")
+        cursor.execute("SELECT * FROM stock_aapl where date = '"+startDate+"' OR date >= ( '"+startDate+"' - INTERVAL 5 DAY )")
+        rows = cursor.fetchall()
+        if cursor.rowcount < 1 :
+            return "No data in Database, please Get Data from Yahoo! "
+        cursor.execute("SELECT * FROM stock_aapl where date = '"+endDate+"' OR date <= ( '"+endDate+"' - INTERVAL 5 DAY )")
+        rows = cursor.fetchall()
+        if cursor.rowcount < 1 :
+            return "No data in Database, please Get Data from Yahoo! "
+        print("Get Data from Table ...")
+        cursor.execute("SELECT * FROM stock_aapl WHERE date >= '"+startDate+"' AND date <= '"+endDate+"'")
         rows = cursor.fetchall()
         # open a file for writing
         aapl_data = open(ticker_file, 'w', newline='')
@@ -63,13 +75,14 @@ def refresh():
             os.remove(os.getcwd()+"\\static\data\\"+ticker_file)
         shutil.copyfile(ticker_file, os.getcwd()+"\\static\data\\"+ticker_file)
         os.remove(ticker_file)
+        cursor.close()
+        conn.close()
         status = "OK"
     except Exception as e:
         return json.dumps({'error':str(e)})
     finally:
-        cursor.close()
-        conn.close()
-    return "OK"
+        pass
+    return json.dumps({'message':str(status)})
 
 @app.errorhandler(500)
 def internal_error(error):
@@ -78,10 +91,11 @@ def internal_error(error):
 
 @app.route('/load', methods=['POST'])
 def load():
+    #    password = request.form['password'];
     #    startDate =  request.form['startDate'];
     #    endDate = request.form['endDate'];
+    apple_name = "aapl.csv"
     try:
-        print("Start loading!")
         # MySQL configurations for findatabase
         finDatabase = MySQL()
         app.config['MYSQL_DATABASE_USER'] = 'root'
@@ -91,14 +105,15 @@ def load():
         app.config['MYSQL_DATABASE_PORT'] = 3306
         finDatabase.init_app(app)
         # get cursor fo table
-        conn = mysql.connect()
+        conn = finDatabase.connect()
         apple_cursor =conn.cursor()
+        print("Start loading!")
         apple_cursor.execute("DELETE FROM stock_aapl")
         # prepare to insert
         sql = "INSERT INTO stock_aapl (date, open, high, low, close, adj_close, volume) VALUES (%s,%s,%s,%s,%s,%s,%s)"
         # open csv file
-        csv_file = open(os.getcwd()+"\\static\data\\"+"wiki-aapl.csv")
-        with open(os.getcwd()+"\\static\data\\"+"wiki-aapl.csv") as csv_file:
+        csv_file = open(os.getcwd()+"\\static\data\\"+apple_name)
+        with open(os.getcwd()+"\\static\data\\"+apple_name) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
             for row in csv_reader:
@@ -124,27 +139,31 @@ def scrape():
     #    startDate =  request.form['startDate'];
     #    endDate = request.form['endDate'];
     try:
-        print("Start!")
-        # We will look at stock prices for the days from 'start' to 'end'
-        start = datetime.date(2018,1,1)
-        end = datetime.date(2018,8,30)   #
+        startDate = request.form['analysisStart']
+        endDate   = request.form['analysisEnd']
+        print("Start scraping!")
+        # We will look at stock prices for the days from 'startDate' to 'endDate'
+        # start = datetime.date(2018,1,1)
+        # end = datetime.date(2018,8,30)   #
         # end = datetime.date.today()
 
         # data = quandl.get("WIKI/AAPL", start_date=str(start), end_date=str(end), api_key='Q8BTAGMsvQSPVThQMgmU', order='desc')
         # apple = data.to_json(orient='index')
         # print(apple)
         # apple = get_data_quandle("AAPL", start, end)
-        apple = get_data_yahoo("AAPL", start, end)
+        apple = get_data_yahoo("AAPL", startDate, endDate)
         if is_json(apple):
             status = put_in_table_aapl(apple)
             if status != "OK":
                 apple = status
         else:
-            apple = "Error, no JSON in answer!!!"
+            print("Error :: "+apple)
+            apple = "Yahoo! respond: "+apple
 
     except Exception as e:
         apple = json.dumps({'error':str(e)})
-
+        print("Error!!!! ::  "+str(e))
+    print("Scraping Done!")
     return apple
 
 def put_in_table_aapl(json_data_apple):
@@ -159,7 +178,7 @@ def put_in_table_aapl(json_data_apple):
         app.config['MYSQL_DATABASE_PORT'] = 3306
         finDatabase.init_app(app)
         # get cursor fo table
-        conn = mysql.connect()
+        conn = finDatabase.connect()
         apple_cursor =conn.cursor()
         apple_cursor.execute("DELETE FROM stock_aapl")
         # make file for csv

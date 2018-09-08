@@ -3,14 +3,21 @@ $(function(){
 
 		$.ajax({
 			url: '/refresh',
-//			data: $('form').serialize(),
+			data: $('fieldset').serialize(),
 			type: 'POST',
 			success: function(response){
-			    if (response =="OK") {
-			        csv_to_table('../static/aapl_Year.csv');
-                    draw_chart('../static/aapl_Year.csv');
-                    draw_chart_macd('../static/aapl_Year.csv');
-			    }
+			     if (IsJsonString(response)){
+                    text = JSON.parse(response);
+                    if ("error" in text) {
+                        alert(text['error']);
+                    }else if ("message" in text) {
+                        csv_to_table('../static/data/aapl.csv');
+                        draw_chart('../static/data/aapl.csv');
+                        draw_chart_macd('../static/data/aapl.csv');
+                    }
+                } else {
+                    alert(response);
+                }
 			},
 			error: function(error){
 				console.log(error);
@@ -21,16 +28,21 @@ $(function(){
 
     		$.ajax({
     			url: '/scrape',
-    //			data: $('form').serialize(),
+                data: $('fieldset').serialize(),
     			type: 'POST',
     			success: function(response){
     				console.log(response);
-    				if (IsJsonString) {
-    				    aaplData(response);
-                        draw_chart('../static/data/aapl.csv');
-                        draw_chart_macd('../static/data/aapl.csv');
+    				if (IsJsonString((response))) {
+    				    text = JSON.parse(response);
+    				    if ("error" in text) {
+                            alert(text['error']);
+                        }else {
+    				        aaplData(response);
+                            draw_chart('../static/data/aapl.csv');
+                            draw_chart_macd('../static/data/aapl.csv');
+                        }
     				} else{
-    				    alert("Something Wrong Happened!!!/n"+response);
+    				    alert(response);
     				}
     			},
     			error: function(error){
@@ -41,10 +53,19 @@ $(function(){
     $('#btnLoadAAPL').click(function(){
                 $.ajax({
                     url: '/load',
-        //			data: $('form').serialize(),
+        			data: $('fieldset').serialize(),
                     type: 'POST',
                     success: function(response){
-                        alert("Data Loaded");
+                        if (IsJsonString(response)){
+                            text = JSON.parse(response);
+                            if ("error" in text) {
+                                alert(text['error']);
+                            }else {
+                                alert(text[Object.keys(text)[0]]);
+                            }
+                        } else {
+                            alert(response);
+                        }
                     },
                     error: function(error){
                         console.log(error);
@@ -97,6 +118,7 @@ var tabulate = function (value) {
 function aaplData(tableData) {
     if (tableData != "Error") {
         var tbody = d3.select("#aapl-table-body");
+            tbody.selectAll("tr").remove();
      // Use d3 to update each cell's text with
      // a data from tableDate
        obj = JSON.parse(tableData)

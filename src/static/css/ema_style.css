@@ -19,6 +19,7 @@ path.ema40 {
 * {
   box-sizing: border-box;
   font-family: Ubuntu, sans-serif;
+
 }
 
 html,
@@ -272,4 +273,19 @@ thead {
 tbody td, thead th {
     width: 14%;
     float: left;
+}
+
+label {
+    font: normal 12px courier !important;
+    align: right;
+}
+
+#chart-element {
+    background: linear-gradient(to bottom, white, #E0FFFF);
+    color: white;
+}
+
+#chart-element-macd {
+    background: linear-gradient(to bottom, white, #87CEFA);
+    color: white;
 }

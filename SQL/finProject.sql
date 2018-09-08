@@ -2,18 +2,22 @@
 
 CREATE TABLE `finproject`.`stock_aapl` (
   `date` DATETIME NULL,
-  `open` DECIMAL NULL,
-  `high` DECIMAL NULL,
-  `low` DECIMAL NULL,
-  `close` DECIMAL NULL,
-  `adj_close` DECIMAL NULL,
+  `open` DECIMAL(10,4) NULL,
+  `high` DECIMAL(10,4) NULL,
+  `low` DECIMAL(10,4) NULL,
+  `close` DECIMAL(10,4) NULL,
+  `adj_close` DECIMAL(10,4) NULL,
   `volume` INT NULL);
 
 CREATE TABLE `finproject`.`stock_x` (
   `date` DATETIME NULL,
-  `open` DECIMAL NULL,
-  `close` DECIMAL NULL);
+  `open` DECIMAL(10,4) NULL,
+  `close` DECIMAL(10,4) NULL);
 
 */
 
-select * from stock_aapl
+--select * from stock_aapl
+
+--ALTER TABLE finproject.stock_aapl
+--MODIFY adj_close DECIMAL(10,4);
+--commit;
