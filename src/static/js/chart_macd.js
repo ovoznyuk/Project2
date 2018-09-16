@@ -55,7 +55,8 @@ const macdAlgorithm = fc.indicatorMacd()
   .value(d => d.close);
 
 function draw_chart_macd(file_name){
-    d3.csv(file_name,
+//    var url ='file_name + '?' + Math.floor(Math.random() * 1000');
+    d3.csv(file_name + '?' + Math.floor(Math.random() * 1000) ,
       row => ({
         open: Number(row.Open),
         close: Number(row.Close),

@@ -87,7 +87,9 @@ function IsJsonString(str) {
 function csv_to_table(file_name){
     var tbody = d3.select("#aapl-table-body");
     tbody.selectAll("tr").remove();
-    d3.csv(file_name, function(data) {
+    var url ='../static/data/aapl.csv';
+//    url + '?' + Math.floor(Math.random() * 1000)
+    d3.csv(file_name + '?' + Math.floor(Math.random() * 1000), function(data) {
       console.log(data.Open);
       tabulate(data);
     });

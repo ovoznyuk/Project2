@@ -75,7 +75,7 @@ const ma26 = fc.indicatorMovingAverage().period(26)
 function draw_chart(file_name) {
     //d3.csv('../static/data/data.csv',
 //    '../static/data/aapl.csv',
-    d3.csv(file_name,
+    d3.csv(file_name + '?' + Math.floor(Math.random() * 1000),
       row => ({
         open: Number(row.Open),
         close: Number(row.Close),
