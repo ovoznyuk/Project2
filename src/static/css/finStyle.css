@@ -1,14 +1,24 @@
-#sectionHome{
-    /* The image used */
-    background-image: url(../img/Intro_Image.JPG);
-
-    /* Half height */
+#cover {
+    background-image: url(../img/BigWaive.jpg);
     height: 100vh;
+/*  background: #222 url('') center center no-repeat;*/
+    /* Half height */
 
     /* Center and scale the image nicely */
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+
+     background-size: cover;
+ /*    height: 100%;*/
+     text-align: center;
+     display: flex;
+     align-items: center;
+
+     min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+     min-height: 100vh; /* These two lines are counted as one :-)       */
+
+     justify-content: center;
+     align-items: center;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {

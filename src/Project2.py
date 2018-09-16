@@ -1,4 +1,4 @@
-from flask import Flask, render_template, json, request
+from flask import Flask, render_template, json, request, redirect, url_for
 from flaskext.mysql import MySQL
 import pandas as pd
 pd.core.common.is_list_like = pd.api.types.is_list_like
@@ -25,7 +25,23 @@ mysql = MySQL()
 @app.route("/")
 def main():
 
+    return render_template('login.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+            error = 'Invalid Credentials. Please try again.'
+        else:
+            return redirect(url_for('home'))
+    return render_template('login.html', error=error)
+
+@app.route('/home',  methods=['GET', 'POST'])
+def home():
+
     return render_template('index3.html')
+
 
 @app.route('/refresh', methods=['POST'])
 def refresh():
