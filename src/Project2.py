@@ -40,7 +40,7 @@ def login():
 @app.route('/home',  methods=['GET', 'POST'])
 def home():
 
-    return render_template('index3.html')
+    return render_template('index4.html')
 
 
 @app.route('/refresh', methods=['POST'])
@@ -137,8 +137,8 @@ def load():
                     print(f'Column names are {", ".join(row)}')
                     line_count += 1
                 else:
-                    print(f'\t{row[0]} {row[1]} {row[2]} {row[3]} {row[4]} {row[11]} {row[5]}')
-                    val = (row[0], row[1], row[2], row[3], row[4], row[11], row[5])
+                    print(f'\t{row[0]} {row[1]} {row[2]} {row[3]} {row[4]} {row[5]} {row[6]}')
+                    val = (row[0], row[1], row[2], row[3], row[4], row[5], row[6])
                     apple_cursor.execute(sql, val)
                     line_count += 1
 

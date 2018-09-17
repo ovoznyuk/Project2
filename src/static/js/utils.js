@@ -1,3 +1,9 @@
+var last_AdjClose = 0;
+var last_Close = 0;
+var last_Open = 0;
+var last_High = 0;
+var last_Low = 0;
+var last_Date = "";
 $(function(){
 	$('#btnRefresh').click(function(){
 
@@ -12,6 +18,7 @@ $(function(){
                         alert(text['error']);
                     }else if ("message" in text) {
                         csv_to_table('../static/data/aapl.csv');
+                        setPriceHTML();
                         draw_chart('../static/data/aapl.csv');
                         draw_chart_macd('../static/data/aapl.csv');
                     }
@@ -38,6 +45,7 @@ $(function(){
                             alert(text['error']);
                         }else {
     				        aaplData(response);
+    				        setPriceHTML();
                             draw_chart('../static/data/aapl.csv');
                             draw_chart_macd('../static/data/aapl.csv');
                         }
@@ -73,6 +81,17 @@ $(function(){
                 });
             });
 });
+
+function setPriceHTML(){
+    $('#last_Date').text(last_Date);
+    $('#last_Open').text(last_Open);
+    $('#last_High').text(last_High);
+    $('#last_Low').text(last_Low);
+    $('#last_Close').text(last_Close);
+    $('#last_AdjClose').text(last_AdjClose);
+    delta = last_AdjClose-$('#cost').text()
+    $('#delta').text(last_AdjClose-$('#cost').text());
+}
 
 function IsJsonString(str) {
     try {
@@ -115,6 +134,12 @@ var tabulate = function (value) {
     cell.text(value["Adj. Close"]);
     cell = row.append("td");
     cell.text(value.Volume);
+    last_Close=value.Close;
+    last_Open=value.Open;
+    last_High=value.High;
+    last_Date = date;
+    last_Low=value.Low;
+    last_AdjClose=value["Adj. Close"];
 }
 
 function aaplData(tableData) {
@@ -141,6 +166,12 @@ function aaplData(tableData) {
             cell.text(value["Adj Close"]);
             cell = row.append("td");
             cell.text(value.Volume);
+            last_Close=value.Close;
+            last_Open=value.Open;
+            last_High=value.High;
+            last_Low=value.Low;
+            last_Date = date;
+            last_AdjClose=value["Adj Close"];
             console.log(key+" :   "+value["Adj Close"]);
         });
     } else {
