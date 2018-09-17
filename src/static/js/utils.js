@@ -84,13 +84,12 @@ $(function(){
 
 function setPriceHTML(){
     $('#last_Date').text(last_Date);
-    $('#last_Open').text(last_Open);
-    $('#last_High').text(last_High);
-    $('#last_Low').text(last_Low);
-    $('#last_Close').text(last_Close);
-    $('#last_AdjClose').text(last_AdjClose);
-    delta = last_AdjClose-$('#cost').text()
-    $('#delta').text(last_AdjClose-$('#cost').text());
+    $('#last_Open').text(last_Open.toFixed(2));
+    $('#last_High').text(last_High.toFixed(2));
+    $('#last_Low').text(last_Low.toFixed(2));
+    $('#last_Close').text(last_Close.toFixed(2));
+    $('#last_AdjClose').text(last_AdjClose.toFixed(2));
+    $('#delta').text((last_AdjClose-$('#cost').text()).toFixed(2));
 }
 
 function IsJsonString(str) {
