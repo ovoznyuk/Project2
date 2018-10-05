@@ -166,8 +166,9 @@ def scrape():
         # data = quandl.get("WIKI/AAPL", start_date=str(start), end_date=str(end), api_key='Q8BTAGMsvQSPVThQMgmU', order='desc')
         # apple = data.to_json(orient='index')
         # print(apple)
-        # apple = get_data_quandle("AAPL", start, end)
-        apple = get_data_yahoo("AAPL", startDate, endDate)
+        apple = get_data_google("AAPL", startDate, endDate)
+        # apple = get_data_quandle("AAPL", startDate, endDate)
+        # apple = get_data_yahoo("AAPL", startDate, endDate)
         if is_json(apple):
             status = put_in_table_aapl(apple)
             if status != "OK":
@@ -223,6 +224,14 @@ def put_in_table_aapl(json_data_apple):
         status = e
 
     return status
+
+def get_data_google(ticker, start_date, end_date):
+    try:
+        panel_data = web.DataReader('INPX', 'google', start_date, end_date)
+        print(panel_data)
+    except Exception as e:
+        panel_data = e.args[0]
+    return panel_data
 
 
 def get_data_quandle(ticker, start_date, end_date):
